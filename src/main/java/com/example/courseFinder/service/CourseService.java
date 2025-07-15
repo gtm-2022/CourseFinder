@@ -72,8 +72,8 @@ public class CourseService {
         } else {
             sorting = Sort.by("nextSessionDate").ascending();
         }
-
-        Pageable pageable = PageRequest.of(page, size, sorting);
+        int pageIndex=page>0?page-1:0;
+        Pageable pageable = PageRequest.of(pageIndex, size, sorting);
         CriteriaQuery query = new CriteriaQuery(criteria, pageable);
 
         return elasticsearchOperations.search(query, CourseDocument.class);
