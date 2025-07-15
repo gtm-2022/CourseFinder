@@ -1,4 +1,4 @@
-package com.example.courseFinder.confing;
+package com.example.courseFinder.config;
 
 import com.example.courseFinder.document.CourseDocument;
 import com.example.courseFinder.repository.CourseRepository;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,7 +17,7 @@ import java.util.Map;
 public class CourseController {
 
     private final CourseService courseService;
-
+// /api/search
     @GetMapping
     public Map<String, Object> searchCourses(
             @RequestParam(value = "q", required = false) String keyword,
@@ -42,5 +43,13 @@ public class CourseController {
         response.put("courses", hits.getSearchHits().stream().map(hit -> hit.getContent()).toList());
 
         return response;
+    }
+
+
+     //  /api/search/suggest?q=phy
+
+    @GetMapping("/suggest")
+    public List<String> suggestTitles(@RequestParam("q") String partialTitle) {
+        return courseService.suggestTitles(partialTitle);
     }
 }

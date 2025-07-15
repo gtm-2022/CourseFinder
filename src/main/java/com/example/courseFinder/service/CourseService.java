@@ -3,13 +3,14 @@ package com.example.courseFinder.service;
 import com.example.courseFinder.document.CourseDocument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.*;
+import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
+import org.springframework.data.elasticsearch.core.suggest.response.Suggest;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -73,9 +74,23 @@ public class CourseService {
         }
 
         Pageable pageable = PageRequest.of(page, size, sorting);
-
         CriteriaQuery query = new CriteriaQuery(criteria, pageable);
 
         return elasticsearchOperations.search(query, CourseDocument.class);
+    }
+
+    public List<String> suggestTitles(String partialTitle) {
+        Criteria criteria = new Criteria("title").startsWith(partialTitle);
+
+        Pageable pageable = PageRequest.of(0, 10);
+        CriteriaQuery query = new CriteriaQuery(criteria, pageable);
+
+        SearchHits<CourseDocument> hits = elasticsearchOperations.search(query, CourseDocument.class);
+
+        return hits.getSearchHits()
+                .stream()
+                .map(hit -> hit.getContent().getTitle())
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
