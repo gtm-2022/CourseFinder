@@ -17,7 +17,7 @@ A simple Spring Boot application to search and explore educational courses using
 git clone https://github.com/gtm-2022/CourseFinger-ElasticSearch
 ```
 ```
-cd CourseFinger-ElasticSearch
+cd CourseFinder
 ```
 Start Elasticsearch (Docker):
 ```
