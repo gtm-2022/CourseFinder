@@ -29,7 +29,7 @@ public class CourseController {
             @RequestParam(value = "maxPrice", required = false) Double maxPrice,
             @RequestParam(value = "startDate", required = false) String startDate,
             @RequestParam(value = "sort", required = false) String sort,
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         Instant startInstant = (startDate != null && !startDate.isEmpty()) ? Instant.parse(startDate) : null;
